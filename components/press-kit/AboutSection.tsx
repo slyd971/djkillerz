@@ -1,0 +1,93 @@
+"use client";
+
+import { useId, useState } from "react";
+import type { PressKitConfig } from "@/data/config";
+
+type AboutSectionProps = {
+  about: PressKitConfig["about"];
+  slydPoster?: boolean;
+  collapseOnDesktop?: boolean;
+  language?: "fr" | "en";
+};
+
+// Bio longue repliée par défaut sur mobile (design Sly'd) : seul le premier paragraphe est visible.
+// Sur desktop, la bio reste entièrement affichée (le bouton est masqué).
+const COLLAPSED_PARAGRAPHS = 1;
+
+export function AboutSection({ about, slydPoster = false, collapseOnDesktop = false, language = "fr" }: AboutSectionProps) {
+  const [expanded, setExpanded] = useState(false);
+  const bioId = useId();
+  const collapsible = slydPoster && about.paragraphs.length > COLLAPSED_PARAGRAPHS;
+
+  return (
+    <section
+      id="about"
+      className="relative scroll-mt-24 overflow-hidden px-4 pb-10 pt-8 md:px-6 md:pb-20 md:pt-12"
+    >
+
+      <div className="relative mx-auto max-w-7xl">
+        <div className="mb-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-[var(--pk-accent)] md:mb-6 md:text-xs md:tracking-[0.35em]">
+          {about.eyebrow}
+        </div>
+
+        <div className="grid gap-8 md:gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-12">
+          <div className="relative">
+            <div className="absolute left-0 top-2 h-full w-[2px] bg-[var(--pk-accent)]" />
+
+            <div className="pl-4 md:pl-6">
+              <h2 className="whitespace-pre-line text-3xl font-black uppercase leading-[0.95] sm:text-4xl md:text-6xl md:leading-[0.92]">
+                {about.title}
+              </h2>
+
+              {(!slydPoster || about.signatureLabel || about.signatureQuote) && <div className="mt-7 md:mt-10">
+                <div className="mb-2 text-[9px] uppercase tracking-[0.26em] text-white/30 md:mb-3 md:text-[10px] md:tracking-[0.35em]">
+                  {about.signatureLabel}
+                </div>
+
+                <p className="text-lg font-semibold leading-[1.35] text-white sm:text-xl md:text-3xl md:leading-[1.4]">
+                  "{about.signatureQuote}"
+                </p>
+
+                <div className="mt-3 h-px w-16 bg-[var(--pk-accent)] md:mt-4 md:w-20" />
+              </div>}
+
+              {(!slydPoster || about.supportingText) && <p className="mt-6 max-w-md text-sm leading-6 text-white/58 md:mt-8 md:text-lg md:leading-8">
+                {about.supportingText}
+              </p>}
+
+              <ul data-pk-list className="mt-6 text-sm uppercase text-white/60 md:mt-8">
+                {about.tags.map((tag) => <li key={tag}>{tag}</li>)}
+              </ul>
+            </div>
+          </div>
+
+          <div className={slydPoster ? "max-w-[65ch] pl-4 md:pl-6 lg:pl-0" : "rounded-[1.4rem] border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm md:rounded-[2rem] md:p-10"}>
+            <div
+              id={bioId}
+              className="space-y-4 text-sm leading-6 text-white/72 md:space-y-6 md:text-lg md:leading-8"
+            >
+              {about.paragraphs.map((paragraph, index) => (
+                <p key={paragraph} className={collapsible && !expanded && index >= COLLAPSED_PARAGRAPHS ? collapseOnDesktop ? "hidden" : "max-md:hidden" : undefined}>
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+            {collapsible && (
+              <button
+                type="button"
+                aria-expanded={expanded}
+                aria-controls={bioId}
+                onClick={() => setExpanded((value) => !value)}
+                className={`mt-6 rounded border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:border-white/30 hover:bg-white/10${collapseOnDesktop ? "" : " md:hidden"}`}
+              >
+                {language === "en"
+                  ? expanded ? "Show less" : "Read more"
+                  : expanded ? "Voir moins" : "Voir plus"}
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

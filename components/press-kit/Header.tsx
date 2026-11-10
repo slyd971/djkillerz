@@ -1,0 +1,268 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { Instagram, Mail, Menu, X as CloseIcon } from "lucide-react";
+import type { PressKitConfig } from "@/data/config";
+
+type HeaderProps = {
+  artist: PressKitConfig["artist"];
+  navigation: PressKitConfig["navigation"];
+  ui: PressKitConfig["ui"];
+  homeHref?: string;
+  /** Instagram / email shown at the bottom of the open mobile menu. */
+  menuLinks?: {
+    label: string;
+    href: string;
+    icon: "instagram" | "mail";
+    external?: boolean;
+  }[];
+};
+
+export function Header({
+  artist,
+  navigation,
+  ui,
+  homeHref = "/",
+  menuLinks = [],
+}: HeaderProps) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [isHeaderCompact, setIsHeaderCompact] = useState(false);
+  const lastScrollY = useRef(0);
+  const stageLabelParts = artist.stageLabel
+    .split("•")
+    .map((part) => part.trim())
+    .filter(Boolean);
+  const desktopStageLabelLines = [
+    stageLabelParts.slice(0, 2).join(" • "),
+    stageLabelParts.slice(2).join(" • "),
+  ].filter(Boolean);
+  const hasLogoImage = artist.logo.src.trim().length > 0;
+  const fallbackLogoParts = artist.name
+    .replace(/-/g, " ")
+    .split(/\s+/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+  const fallbackLogoPrimary = fallbackLogoParts[0] ?? artist.name;
+  const fallbackLogoSecondary = fallbackLogoParts.slice(1).join(" ");
+
+  // Section anchors ("#about") only exist on the home page. From /gallery or
+  // /videos they must point back to it, otherwise they resolve to /gallery#about.
+  const resolveHref = (href: string) =>
+    href.startsWith("#") ? `${homeHref}${href}` : href;
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [menuOpen]);
+
+  useEffect(() => {
+    lastScrollY.current = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const delta = currentScrollY - lastScrollY.current;
+
+      if (Math.abs(delta) < 8) return;
+
+      const shouldBeCompact = currentScrollY >= 20;
+
+      setIsHeaderVisible(true);
+      setIsHeaderCompact(shouldBeCompact);
+
+      if (menuOpen) {
+        setMenuOpen(false);
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [menuOpen]);
+
+  // Full-screen menu: numbered rows, large display type, hairline dividers.
+  // Absolute (not fixed) because the header's transform/backdrop-filter makes
+  // it the containing block for positioned descendants.
+  const mobileMenu = menuOpen && (
+    <div
+      role="dialog"
+      aria-label={ui.openMenuLabel}
+      className="absolute left-0 right-0 top-full z-[100] flex h-[calc(100dvh-59px)] flex-col overflow-y-auto bg-black lg:hidden"
+    >
+      <nav className="px-4 pt-2 md:px-10">
+        {navigation.items.map((item, index) => (
+          <a
+            key={item.href}
+            href={resolveHref(item.href)}
+            onClick={() => setMenuOpen(false)}
+            className="flex items-baseline gap-4 border-b border-white/10 py-3.5 text-white transition-colors hover:text-[var(--pk-accent)]"
+          >
+            <span className="font-sans text-xs tabular-nums text-white/55 tracking-[0.2em]!">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <span className="block text-[2.6rem] font-bold uppercase leading-none tracking-normal! [font-family:var(--slyd-font-display,var(--pk-font-display)),sans-serif]">
+              {item.label}
+            </span>
+          </a>
+        ))}
+      </nav>
+
+      {menuLinks.length > 0 && (
+        <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-white/10 px-4 py-4 text-xs uppercase text-white/60 md:px-10">
+          {menuLinks.map((link) => {
+            const Icon = link.icon === "mail" ? Mail : Instagram;
+
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noopener noreferrer" : undefined}
+                className={`flex items-center gap-2 py-1 transition-colors hover:text-white tracking-[0.2em]! ${
+                  link.icon === "mail" ? "lowercase" : ""
+                }`}
+              >
+                <Icon className="h-4 w-4 shrink-0" />
+                {link.label}
+              </a>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+
+  return (
+    <header
+      className={`fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/95 backdrop-blur-xl transition-transform duration-300 ${
+        isHeaderVisible ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
+      <div
+        className={`mx-auto flex max-w-[1720px] items-center justify-between px-3 transition-all duration-300 sm:px-4 md:px-10 ${
+          isHeaderCompact ? "h-[58px] md:h-[68px]" : "h-[58px] md:h-[80px]"
+        }`}
+      >
+        <div className="flex min-w-0 items-center gap-2 md:gap-3">
+          <Link href={homeHref} className="-ml-2 shrink-0 md:-ml-4">
+            <div
+              className={`flex items-center overflow-hidden transition-all duration-300 ${
+                isHeaderCompact
+                  ? "h-8 w-[128px] md:h-9 md:w-[152px]"
+                  : "h-8 w-[128px] md:h-11 md:w-[172px]"
+              }`}
+            >
+              {hasLogoImage ? (
+                <img
+                  src={artist.logo.src}
+                  alt={artist.logo.alt}
+                  className="w-auto max-w-none shrink-0 object-contain object-left"
+                  style={{
+                    height: `${artist.logo.scale ?? 175}%`,
+                    filter: artist.logo.invert ? "invert(1)" : undefined,
+                  }}
+                />
+              ) : (
+                <div className="flex flex-col leading-none text-white">
+                  <span
+                    className={`font-black uppercase tracking-[0.18em] ${
+                      isHeaderCompact
+                        ? "text-[1.2rem] md:text-[1.3rem]"
+                        : "text-[1.35rem] md:text-[1.5rem]"
+                    }`}
+                    style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+                  >
+                    {fallbackLogoPrimary}
+                  </span>
+                  {fallbackLogoSecondary ? (
+                    <span
+                      className={`-mt-0.5 font-black uppercase tracking-[0.32em] text-[var(--pk-accent)] ${
+                        isHeaderCompact
+                          ? "text-[0.58rem] md:text-[0.62rem]"
+                          : "text-[0.62rem] md:text-[0.68rem]"
+                      }`}
+                    >
+                      {fallbackLogoSecondary}
+                    </span>
+                  ) : null}
+                </div>
+              )}
+            </div>
+          </Link>
+
+          <div className={`${artist.showStageLabelOnMobile ? "flex max-w-[96px] text-[8px] leading-[1.3] tracking-[0.14em] sm:max-w-[240px] sm:text-[10px] sm:tracking-[0.26em]" : "hidden max-w-[240px] text-[10px] tracking-[0.26em] leading-[1.35]"} flex-col font-medium uppercase text-white/48 xl:flex xl:max-w-[240px] xl:text-[10px] xl:tracking-[0.26em]`}>
+            {desktopStageLabelLines.map((line) => (
+              <span key={line} className="block whitespace-normal">
+                {line}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 md:gap-6 xl:gap-8">
+          <nav className="hidden items-center gap-7 text-[10px] font-semibold uppercase tracking-[0.28em] text-white/76 lg:flex xl:gap-8">
+            {navigation.items.map((item) => (
+              <a key={item.href} href={resolveHref(item.href)} className="transition hover:text-white">
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          <a
+            href={resolveHref(navigation.cta.href)}
+            aria-label={`${navigation.cta.label} (menu compact)`}
+            className={`inline-flex rounded-full bg-[var(--pk-accent)] font-semibold uppercase text-white transition-all duration-300 hover:bg-[var(--pk-accent-strong)] lg:hidden ${
+              isHeaderCompact
+                ? "px-2.5 py-2 text-[9px] tracking-[0.08em]"
+                : "px-2.5 py-2 text-[9px] tracking-[0.08em] sm:px-4 sm:py-2.5 sm:text-[10px] sm:tracking-[0.2em]"
+            }`}
+          >
+            {navigation.cta.label}
+          </a>
+
+          <a
+            href={resolveHref(navigation.cta.href)}
+            className={`hidden rounded-full border border-[rgb(var(--pk-accent-rgb)/0.28)] bg-[var(--pk-accent)] font-semibold uppercase text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[var(--pk-accent-strong)] lg:inline-flex ${
+              isHeaderCompact
+                ? "px-4.5 py-2 text-[10px] tracking-[0.18em]"
+                : "px-6 py-2.5 text-[11px] tracking-[0.22em]"
+            }`}
+          >
+            {navigation.cta.label}
+          </a>
+
+          <button
+            type="button"
+            onClick={() => setMenuOpen((prev) => !prev)}
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:bg-white/10 md:h-10 md:w-10 lg:hidden"
+            aria-label={menuOpen ? ui.closeMenuLabel : ui.openMenuLabel}
+          >
+            {menuOpen ? (
+              <CloseIcon className="h-5 w-5 text-white" />
+            ) : (
+              <Menu className="h-5 w-5 text-white" />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {mobileMenu}
+    </header>
+  );
+}

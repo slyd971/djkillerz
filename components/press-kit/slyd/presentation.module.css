@@ -1,0 +1,261 @@
+/* Every rule is scoped to the explicit Sly'd main class. No palette overrides. */
+.poster:not([data-pk-font]) {
+  font-family: var(--slyd-font-body), sans-serif;
+}
+
+.poster:not([data-pk-font]) :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--slyd-font-display), sans-serif;
+}
+
+.poster :is(h1, h2, h3, h4, h5, h6) {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  line-height: 1;
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
+}
+
+.poster h1 { font-size: clamp(3.5rem, 7vw, 7.5rem); }
+.poster h2 { font-size: clamp(2.5rem, 4.5vw, 4.5rem); }
+.poster :global(#about) h2 { font-size: clamp(2.5rem, 4vw, 4rem); line-height: 1.04; }
+.poster p { font-size: max(1rem, 1em); line-height: 1.6; }
+.poster :is(nav, button, a, [class*="tracking-"]) { letter-spacing: 0.04em; }
+.poster :is(h1, h2, h3) { letter-spacing: 0; }
+.poster h1 span { font-size: inherit; }
+
+.poster :is(button, a)[class*="rounded"],
+.poster button > span[class*="rounded"],
+.poster [class*="rounded"][class*="overflow-hidden"]:has(img, video, iframe),
+.poster :global(.pk-hero-portrait),
+.poster :global(.pk-hero-portrait) ~ [class*="rounded"] {
+  border-radius: 4px;
+}
+
+/* KPI strip and tag-list layout come from ../kit.module.css; Sly'd only swaps the font. */
+.poster:not([data-pk-font]) [data-pk-stats] > div > :first-child {
+  font-family: var(--slyd-font-display), sans-serif;
+}
+.poster [data-pk-stats] > div > :first-child {
+  font-weight: 700;
+}
+
+.poster [data-slyd-references] {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem 1.5rem;
+  font-size: clamp(1.3rem, 2.3vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+.poster:not([data-pk-font]) [data-slyd-references] {
+  font-family: var(--slyd-font-display), sans-serif;
+}
+.poster [data-slyd-references] [hidden] { display: none; }
+.poster [data-slyd-brand] { display: flex; min-height: 6rem; align-items: center; justify-content: center; }
+.poster [data-slyd-brand] img { width: auto; max-width: 100%; object-fit: contain; opacity: 0.88; transition: opacity 0.2s ease; }
+.poster a[data-slyd-brand]:hover img { opacity: 1; }
+.poster [data-slyd-brand] span { font-size: 1.35rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; text-align: center; opacity: 0.88; }
+
+@media (min-width: 768px) {
+  .poster [data-slyd-references] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* Titre hero : system-ui extra bold (comme Yoruboy/Soyumi), accent plus petit. */
+.poster:not([data-pk-font]) h1[class] {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.poster h1[class] {
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  line-height: 0.88;
+  font-size: clamp(2.9rem, 9vw, 9.5rem);
+}
+.poster h1[class] span { font-size: 0.6em; letter-spacing: -0.015em; }
+
+/* Desktop : le portrait du hero ne dépasse pas la ligne de flottaison. */
+@media (min-width: 1024px) {
+  .poster :global(.pk-hero-portrait) {
+    height: calc(100svh - 9rem);
+  }
+}
+@media (min-width: 1024px) {
+  .poster :global(.pk-hero-visual) { width: 100%; max-width: 34rem; }
+}
+
+/* Mobile : titre plus gros (reste sur une ligne jusqu'à ~340px de large). */
+@media (max-width: 767px) {
+  .poster h1[class] { font-size: 19vw; }
+}
+
+/* Thème or : l'or est clair, le texte des boutons pleins passe en noir pour rester lisible. */
+.poster[data-pk-theme="gold"] [class*="bg-[var(--pk-accent)]"] { color: #0d0d0d; }
+
+/* ---- Thème or : pas de halos, texture de grain, bloc contact clair ---- */
+
+/* Halos : lueurs radiales, orbes floutés et ombres colorées retirés. */
+.poster[data-pk-theme="gold"] [class*="radial-gradient"],
+.poster[data-pk-theme="gold"] [class*="blur-3xl"] {
+  display: none;
+}
+.poster[data-pk-theme="gold"] [class*="shadow-[0_"] {
+  box-shadow: none;
+}
+
+/* Texture : grain fin sur toute la page, sous le header. */
+.poster[data-pk-theme="gold"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.1;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 3 0 0 0 -1.55'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 220px 220px;
+}
+
+/* Bloc booking en or : fond or, textes noirs ; les cartes de contact restent noires. */
+.poster[data-pk-theme="gold"] :global(#contact) {
+  background-color: #c8a448;
+  color: #0d0d0d;
+}
+.poster[data-pk-theme="gold"] :global(#contact) h2 {
+  color: #0d0d0d;
+}
+.poster[data-pk-theme="gold"] :global(#contact) p {
+  color: rgb(13 13 13 / 0.8);
+}
+.poster[data-pk-theme="gold"] :global(#contact) :global(.mb-4),
+.poster[data-pk-theme="gold"] :global(#contact) [class*="tracking-[0.35em]"][class*="text-[var(--pk-accent)]"] {
+  color: rgb(13 13 13 / 0.75);
+}
+.poster[data-pk-theme="gold"] :global(#contact) a {
+  background-color: #0d0d0d;
+  border-color: rgb(255 255 255 / 0.12);
+  color: #ffffff;
+}
+.poster[data-pk-theme="gold"] :global(#contact) a [class*="text-white/35"] {
+  color: rgb(255 255 255 / 0.55);
+}
+
+/* Ligne d'accent du hero plus longue : taille réduite pour tenir sur une ligne. */
+.poster[data-pk-theme="gold"] h1[class] span {
+  font-size: 0.45em;
+  letter-spacing: 0;
+  white-space: pre-line;
+  line-height: 1;
+}
+@media (max-width: 767px) {
+  .poster[data-pk-theme="gold"] h1[class] span { font-size: 0.36em; }
+}
+/* Paragraphe vide (ex. hero sans description) : pas de marge résiduelle. */
+.poster[data-pk-theme="gold"] p:empty { display: none; }
+
+/* Titre du hero : reste lisible quand il passe sur le bonnet blanc de la photo. */
+.poster[data-pk-theme="gold"] h1[class] {
+  text-shadow: 0 2px 6px rgb(0 0 0 / 0.55), 0 4px 22px rgb(0 0 0 / 0.5);
+}
+
+/* Grain sombre : rend la texture visible sur les zones claires (photo du hero, bloc booking). */
+.poster[data-pk-theme="gold"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.16;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='d'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 0 0 0 1.45'/></filter><rect width='100%' height='100%' filter='url(%23d)'/></svg>");
+  background-size: 240px 240px;
+}
+
+/* Thème or : tailles des stats du hero. */
+.poster[data-pk-theme="gold"] [data-pk-stats] > div > :first-child {
+  font-size: clamp(2.6rem, 7.5vw, 4.75rem);
+}
+.poster[data-pk-theme="gold"] [data-pk-stats] > div > :last-child {
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+}
+@media (min-width: 768px) {
+  .poster[data-pk-theme="gold"] [data-pk-stats] > div > :first-child {
+    font-size: clamp(3.25rem, 5vw, 5rem);
+  }
+  .poster[data-pk-theme="gold"] [data-pk-stats] > div > :last-child {
+    font-size: 1rem;
+  }
+}
+
+/* Thème or : sélection de texte. */
+.poster[data-pk-theme="gold"] ::selection,
+.poster[data-pk-theme="gold"]::selection {
+  background: #c8a448;
+  color: #0d0d0d;
+}
+
+/* Thème or : références en casse normale, police héritée. */
+.poster[data-pk-theme="gold"] [data-slyd-references] {
+  text-transform: none;
+  letter-spacing: 0;
+  color: rgb(255 255 255 / 0.82);
+  gap: 0.9rem 1.5rem;
+  font-family: inherit;
+  font-size: clamp(1rem, 1.35vw, 1.15rem);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Thème or + hero Vitrine (desktop) : fond clair derrière la photo, photo fondue sur la gauche. */
+@media (min-width: 768px) {
+  .poster[data-pk-theme="gold"][data-pk-variant="showcase"] > section:first-of-type div:has(> img[class*="object-cover"]) {
+    background-color: #f8f8f8;
+  }
+  .poster[data-pk-theme="gold"][data-pk-variant="showcase"] > section:first-of-type img[class*="object-cover"] {
+    width: 78%;
+    margin-left: auto;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 24%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 24%);
+  }
+}
+
+/* Hero à fond clair (option lightBackdrop) : textes sombres, aucun voile noir. */
+.poster [data-pk-hero-light] :is([class*="text-white"], [class*="text-[var(--pk-accent"]) { color: #0a0a0a !important; }
+.poster [data-pk-hero-light] [class*="border-white"] { border-color: rgba(10, 10, 10, 0.18) !important; }
+.poster [data-pk-hero-light] [data-pk-stats] > div { background: rgba(10, 10, 10, 0.04) !important; box-shadow: none !important; }
+.poster [data-pk-hero-light] a[class*="bg-[var(--pk-accent)]"] { background: #0a0a0a !important; color: #ffffff !important; }
+
+/* Thème noir et blanc : l'accent est blanc, donc le texte des boutons pleins doit être sombre. */
+.poster :global([data-pk-theme="monochrome"]) [class*="bg-[var(--pk-accent)]"], .poster[data-pk-theme="monochrome"] [class*="bg-[var(--pk-accent)]"] { color: #050505; }
+
+/* Thème noir et blanc : la section contact a un fond blanc, ses textes clairs passent en sombre. */
+.poster[data-pk-theme="monochrome"] :global(#contact) [class*="text-white"] { color: rgba(10, 10, 10, 0.78); }
+.poster[data-pk-theme="monochrome"] :global(#contact) [class*="text-[var(--pk-accent)]"] { color: rgba(10, 10, 10, 0.55); }
+
+/* Pastilles rondes (collaborations artistes) : le look poster carré ne doit pas les écraser. */
+.poster [data-pk-round] { border-radius: 9999px !important; }
+
+/* Références compactes sur mobile (option clubs.image) : texte plus petit que le titre de section. */
+@media (max-width: 767px) {
+  .poster [data-slyd-references][data-pk-compact] { font-size: 0.95rem; gap: 1.1rem 1rem; line-height: 1.25; }
+}
+
+/* Références compactes, desktop (option clubs.image) : texte moins imposant, 3 colonnes à côté de la photo. */
+@media (min-width: 768px) {
+  .poster [data-slyd-references][data-pk-compact] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    font-size: clamp(1.05rem, 1.35vw, 1.3rem);
+    gap: 1rem 1.5rem;
+  }
+}
+
+/* Alternance des fonds de sections (option KillerZ) : noir / gris foncé, du haut vers le bas. */
+.poster[data-pk-alt-bg] :global(#about) { background-color: #000; }
+.poster[data-pk-alt-bg] :global(#clubs) { background-color: #161616; }
+.poster[data-pk-alt-bg] :global(#tour) { background-color: #000; }
+.poster[data-pk-alt-bg] :global(#collaborations) { background-color: #161616; }
+.poster[data-pk-alt-bg] :global(#gallery) { background-color: #000; max-width: none; padding-inline: max(1rem, calc((100% - 80rem) / 2 + 1.5rem)); }
+.poster[data-pk-alt-bg] :global(#youtube) { background-color: #161616; }
+.poster[data-pk-alt-bg] :global(#spotify) { background-color: #000; }
+.poster[data-pk-alt-bg] :global(#rider) { background-color: #161616; }
+.poster[data-pk-alt-bg] :global(#disponibilites) { background-color: #000; }
