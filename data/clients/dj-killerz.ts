@@ -908,7 +908,7 @@ const djKillerzPressKitEn: PressKitConfig = {
 };
 
 const djKillerzBaseClient = {
-  domain: "dj-killerz.presskit.fr",
+  domain: "djkilllerz.presskit.fr",
   vercelSubdomain: "dj-killerz.vercel.app",
   name: "DJ KillerZ",
   tagline: "International DJ & Producer",
