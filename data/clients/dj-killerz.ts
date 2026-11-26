@@ -425,7 +425,7 @@ const djKillerzPressKit: PressKitConfig = {
         tagline: "Hip-hop quality",
         image: { src: "/dj-killerz/concepts/la-rockwell/rockwell-flyer.jpg", alt: "Flyer de La Rockwell : Hip Hop Quality, The Place to Be, Every Thursday" },
         details: [
-          { label: "Lieu", value: "Boum Boum, Paris" },
+          { label: "Lieu", value: "Boum Boum, Paris 8ème" },
           { label: "Soirée", value: "Tous les jeudis" },
         ],
         description: [
@@ -941,7 +941,7 @@ const djKillerzPressKitEn: PressKitConfig = {
         tagline: "Hip-hop quality",
         image: { src: "/dj-killerz/concepts/la-rockwell/rockwell-flyer.jpg", alt: "Flyer of La Rockwell: Hip Hop Quality, The Place to Be, Every Thursday" },
         details: [
-          { label: "Venue", value: "Boum Boum, Paris" },
+          { label: "Venue", value: "Boum Boum, Paris 8th" },
           { label: "Night", value: "Every Thursday" },
         ],
         description: [
