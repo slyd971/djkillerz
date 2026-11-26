@@ -175,6 +175,11 @@ export async function ConceptPage(props: ConceptPageProps) {
                 preload="metadata"
                 poster={concept.video.poster}
                 aria-label={concept.video.title}
+                style={{
+                  height: "auto",
+                  aspectRatio: concept.video.orientation === "portrait" ? "9 / 16" : "16 / 9",
+                  maxWidth: concept.video.orientation === "portrait" ? "22rem" : "56rem",
+                }}
                 className={`bg-black object-contain ${concept.video.orientation === "portrait" ? "aspect-[9/16] w-full max-w-sm" : "aspect-video w-full max-w-4xl"}`}
               >
                 <source src={concept.video.src} type="video/mp4" />

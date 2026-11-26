@@ -58,6 +58,7 @@ export function ConceptsSection({ concepts, getHref }: ConceptsSectionProps) {
                     poster={item.video.poster}
                     aria-label={item.video.title}
                     className="absolute inset-0 h-full w-full bg-black object-contain"
+                    style={{ height: "100%" }}
                   >
                     <source src={item.video.src} type="video/mp4" />
                   </video>
