@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const NUMBER_PATTERN = /^(\D*)(\d[\d\s]*)(.*)$/;
+const NUMBER_PATTERN = /^(\D*)(\d[\d\s]*(?:[.,]\d+)?)(.*)$/;
 
 type CountUpValueProps = {
   value: string;
@@ -20,13 +20,17 @@ export function CountUpValue({ value, duration = 1600 }: CountUpValueProps) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const [, prefix, digits, suffix] = match;
-    const target = Number(digits.replace(/\s/g, ""));
+    const decimalMatch = digits.match(/[.,](\d+)$/);
+    const decimals = decimalMatch ? decimalMatch[1].length : 0;
+    const separator = decimalMatch ? digits[digits.length - decimals - 1] : ".";
+    const target = Number(digits.replace(/\s/g, "").replace(",", "."));
     const grouped = /\s/.test(digits.trim());
     const isYear = target >= 1900 && target <= 2100;
     const from = isYear ? target - 25 : 0;
     const format = (n: number) => {
-      const text = Math.round(n).toString();
-      return grouped ? text.replace(/\B(?=(\d{3})+(?!\d))/g, " ") : text;
+      const [int, dec] = (decimals ? n.toFixed(decimals) : Math.round(n).toString()).split(".");
+      const grouping = grouped ? int.replace(/\B(?=(\d{3})+(?!\d))/g, " ") : int;
+      return dec ? `${grouping}${separator}${dec}` : grouping;
     };
 
     setDisplay(`${prefix}${format(from)}${suffix}`);
