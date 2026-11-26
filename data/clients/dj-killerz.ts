@@ -423,7 +423,7 @@ const djKillerzPressKit: PressKitConfig = {
         slug: "la-rockwell",
         name: "La Rockwell",
         tagline: "Hip-hop quality",
-        image: { src: "/dj-killerz/concepts/la-rockwell/rockwell-flyer.jpg", alt: "Flyer de La Rockwell : Hip Hop Quality, The Place to Be, Every Thursday" },
+        image: { src: "/dj-killerz/concepts/la-rockwell/rockwell-cover-9x16.jpg", alt: "Visuel de La Rockwell : DJ KillerZ aux platines, Hip Hop Quality" },
         details: [
           { label: "Lieu", value: "Boum Boum, Paris 8ème" },
           { label: "Soirée", value: "Tous les jeudis" },
@@ -431,7 +431,7 @@ const djKillerzPressKit: PressKitConfig = {
         description: [
           "La Rockwell est une soirée hip-hop de qualité, imaginée par DJ KillerZ et ouverte chaque jeudi soir à Paris, avec un décor américain rétro-néon : pompe à essence, calandre de Chevrolet, cassette géante, vinyles et patins à roulettes.",
         ],
-        video: { src: "/dj-killerz/concepts/la-rockwell/video/rockwell-teaser-tonight.mp4", poster: "/dj-killerz/concepts/la-rockwell/rockwell-flyer-916.jpg", title: "Teaser de La Rockwell — Hip-hop quality", orientation: "portrait" },
+        video: { src: "/dj-killerz/concepts/la-rockwell/video/rockwell-teaser-tonight.mp4", poster: "/dj-killerz/concepts/la-rockwell/rockwell-cover-9x16.jpg", title: "Teaser de La Rockwell — Hip-hop quality", orientation: "portrait" },
         gallery: [
           { src: "/dj-killerz/concepts/la-rockwell/photos/rockwell-01.jpg", alt: "Portrait d'une invitée aux cheveux blond platine, robe noire pailletée" },
           { src: "/dj-killerz/concepts/la-rockwell/photos/rockwell-02.jpg", alt: "Dos d'une veste brodée du logo Rockwell" },
@@ -939,7 +939,7 @@ const djKillerzPressKitEn: PressKitConfig = {
         slug: "la-rockwell",
         name: "La Rockwell",
         tagline: "Hip-hop quality",
-        image: { src: "/dj-killerz/concepts/la-rockwell/rockwell-flyer.jpg", alt: "La Rockwell flyer: Hip Hop Quality, The Place to Be, Every Thursday" },
+        image: { src: "/dj-killerz/concepts/la-rockwell/rockwell-cover-9x16.jpg", alt: "La Rockwell artwork: DJ KillerZ at the decks, Hip Hop Quality" },
         details: [
           { label: "Venue", value: "Boum Boum, Paris 8th" },
           { label: "Night", value: "Every Thursday" },
@@ -947,7 +947,7 @@ const djKillerzPressKitEn: PressKitConfig = {
         description: [
           "La Rockwell is a quality hip-hop night created by DJ KillerZ, open every Thursday evening in Paris, with a retro-neon American set: gas pump, Chevrolet grille, giant cassette, vinyl records and roller skates.",
         ],
-        video: { src: "/dj-killerz/concepts/la-rockwell/video/rockwell-teaser-tonight.mp4", poster: "/dj-killerz/concepts/la-rockwell/rockwell-flyer-916.jpg", title: "La Rockwell teaser — Hip-hop quality", orientation: "portrait" },
+        video: { src: "/dj-killerz/concepts/la-rockwell/video/rockwell-teaser-tonight.mp4", poster: "/dj-killerz/concepts/la-rockwell/rockwell-cover-9x16.jpg", title: "La Rockwell teaser — Hip-hop quality", orientation: "portrait" },
         gallery: [
           { src: "/dj-killerz/concepts/la-rockwell/photos/rockwell-01.jpg", alt: "Portrait of a guest with platinum blonde hair in a sequined black dress" },
           { src: "/dj-killerz/concepts/la-rockwell/photos/rockwell-02.jpg", alt: "Back of a jacket embroidered with the Rockwell logo" },
