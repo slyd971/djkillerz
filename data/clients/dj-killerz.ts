@@ -178,7 +178,7 @@ const djKillerzPressKit: PressKitConfig = {
       "Joie, amour et bonnes vibrations : une philosophie qui lui vaut son surnom de « tueur de mauvaises vibes ».",
     supportingText:
       "Faire rayonner la Martinique et partager sa passion pour la musique avec le monde entier.",
-    tags: ["Dancehall", "Afro", "Rap FR", "Caribbean", "Open format"],
+    tags: ["Hip Hop RnB US", "Rap FR", "Pop"],
     paragraphs: [
       "Originaire de la Martinique, DJ KillerZ est aujourd'hui reconnu comme l'un des DJ antillais les plus influents de sa génération. Véritable showman au style éclectique, il se distingue par sa capacité à connecter instantanément avec tous les publics, en diffusant joie, amour et bonnes vibrations à travers ses sets.",
       "Officiellement lancé dans le deejaying au milieu des années 2000, il devient incontournable dès 2009 dans les Antilles, avant de s'exporter en Europe et à l'international. De Paris à Budapest, en passant par Londres, Montréal, New York, Barcelone ou Saint-Barthélemy, il enchaîne les scènes, clubs, festivals et événements prestigieux.",
@@ -1151,7 +1151,7 @@ export const djKillerzEnClient: ClientConfig = {
     {
       title: "Clubs & events",
       description:
-        "Eclectic dancehall, afro, rap and Caribbean sets for every audience.",
+        "Eclectic hip-hop, RnB, French rap and pop sets for every audience.",
     },
   ],
   seo: {
@@ -1190,7 +1190,7 @@ export const djKillerzClient: ClientConfig = {
     {
       title: "Clubs & événements",
       description:
-        "Sets éclectiques dancehall, afro, rap et musiques caribéennes pour tous les publics.",
+        "Sets éclectiques hip-hop, RnB, rap FR et pop pour tous les publics.",
     },
   ],
   seo: {
